@@ -5,8 +5,8 @@ export default async ({ hemera, db }) => {
     topic,
     cmd: 'insert-one'
   }, async ({ collection, obj }) => {
-    const { ops: { _id }} = await db.collection(collection).insertOne(obj)
-    return {...obj, _id }
+    const { ops }= await db.collection(collection).insertOne(obj)
+    return obj
   })
 
   hemera.add({
