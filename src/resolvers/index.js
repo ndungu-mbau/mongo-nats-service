@@ -42,9 +42,9 @@ export default async ({ hemera, db }) => {
 
   hemera.add({
     topic,
-    cmd: 'update-one'
+    cmd: 'delete-one'
   }, async ({ collection, params }) => {
-    await db.collection(collection).deleteOne({params})
-     return { ok:true, message:"Deleted successfully"}
+    await db.collection(collection).deleteOne(params)
+    return { ok:true, message:"Deleted successfully"}
   })
 }
