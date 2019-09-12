@@ -37,7 +37,6 @@ export default async ({ hemera, db }) => {
   }, async ({ collection, params }) => {
     console.log({ params })
     const [res] = await db.collection(collection).find(params).toArray()
-    console.log(res);
     return res
   })
 
