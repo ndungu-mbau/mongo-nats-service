@@ -1,3 +1,4 @@
+import { ObjectID } from 'mongodb'
 const topic = 'db-service'
 
 export default async ({ hemera, db }) => {
@@ -13,7 +14,20 @@ export default async ({ hemera, db }) => {
     topic,
     cmd: 'find'
   }, async ({ collection, params }) => {
-    const res = await db.collection(collection).find(params).toArray()
+    const q = Object.entries(params).reduce((acc,[ key, val ]) => {
+      if(key==="_id"){
+        return {
+          ...acc,
+          [key]: new ObjectID(val)
+        }
+      } else {
+        return {
+          ...acc,
+          [key]: val
+        }
+      }
+    }, {})
+    const res = await db.collection(collection).find(q).toArray()
     return res
   })
 
@@ -21,7 +35,9 @@ export default async ({ hemera, db }) => {
     topic,
     cmd: 'find-one'
   }, async ({ collection, params }) => {
+    console.log({ params })
     const [res] = await db.collection(collection).find(params).toArray()
+    console.log(res);
     return res
   })
 
@@ -32,7 +48,7 @@ export default async ({ hemera, db }) => {
     const { _id, ...restParams } = params
 
     const res = await db.collection(collection).updateOne({
-       _id
+       _id: new ObjectID(_id)
      }, {
        $set : restParams
      }).toArray()
