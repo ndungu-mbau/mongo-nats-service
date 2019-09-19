@@ -35,7 +35,6 @@ export default async ({ hemera, db }) => {
     topic,
     cmd: 'find-one'
   }, async ({ collection, params }) => {
-    console.log({ params })
     const [res] = await db.collection(collection).find(params).toArray()
     return res
   })
