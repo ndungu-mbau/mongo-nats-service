@@ -60,7 +60,21 @@ export default async ({ hemera, db }) => {
     topic,
     cmd: 'delete-one'
   }, async ({ collection, params }) => {
-    await db.collection(collection).deleteOne(params)
+    const q = Object.entries(params).reduce((acc,[ key, val ]) => {
+      if(key==="_id"){
+        return {
+          ...acc,
+          [key]: new ObjectID(val)
+        }
+      } else {
+        return {
+          ...acc,
+          [key]: val
+        }
+      }
+    }, {})
+
+    await db.collection(collection).deleteOne(q)
     return { ok:true, message:"Deleted successfully"}
   })
 }
