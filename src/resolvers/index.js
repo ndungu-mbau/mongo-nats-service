@@ -45,13 +45,15 @@ export default async ({ hemera, db }) => {
   }, async ({ collection, params }) => {
     const { _id, ...restParams } = params
 
-    const res = await db.collection(collection).updateOne({
-       _id: new ObjectID(_id)
-     }, {
-       $set : restParams
-     }).toArray()
+    const { value } = await db.collection(collection).findOneAndUpdate({
+      _id: new ObjectID(_id)
+    },{
+      $set: restParams
+    },{
+      returnOriginal: false
+    })
 
-     return res
+    return value
   })
 
   hemera.add({
