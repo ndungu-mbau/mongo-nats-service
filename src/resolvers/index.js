@@ -74,7 +74,12 @@ export default async ({ hemera, db }) => {
       }
     }, {})
 
-    await db.collection(collection).deleteOne(q)
-    return { ok:true, message:"Deleted successfully"}
+    try{
+      await db.collection(collection).deleteOne(q)
+      return { ok:true, message:"Deleted successfully"}
+    } catch(err){
+      return { ok:false, message:`Error deleting: ${err.message}`}
+    }
+    
   })
 }

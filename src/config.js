@@ -1,4 +1,4 @@
-const { MONGO_URL: url } = process.env
+const { MONGO_URL: url, SECRET: secret } = process.env
 
 export default {
   development:{
@@ -6,7 +6,7 @@ export default {
       url,
       name:'minister_dev'
     },
-    secret:"5q4twy5dtfyvrfrnpbiuywtdqvw5iryut",
+    secret,
 
   },
   production:{
@@ -14,6 +14,6 @@ export default {
       url,
       name:'minister_prod'
     },
-    secret:"4376ef468b37366a1253a426b566757edf8dd6a967b95b9b3b7970d3214ed34b"
+    secret
   }
 }
