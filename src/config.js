@@ -1,10 +1,10 @@
-const { MONGO_URL: url, SECRET: secret } = process.env
+const { MONGO_URL: url, SECRET: secret, NAME: name } = process.env
 
 export default {
   development:{
     db:{
       url,
-      name:'minister_dev'
+      name
     },
     secret,
 
@@ -12,7 +12,7 @@ export default {
   production:{
     db:{
       url,
-      name:'minister_prod'
+      name
     },
     secret
   }
