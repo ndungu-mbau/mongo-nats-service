@@ -3,13 +3,13 @@ import natsServer from 'nats'
 import Hemera from 'nats-hemera'
 import { MongoClient } from 'mongodb'
 
-import config from './config'
-
 import resolvers from './resolvers'
 
 const {
-  NODE_ENV = 'development',
-  NATS_URL } = process.env
+  NATS_URL,
+  MONGO_URL,
+  DB_NAME,
+} = process.env
 
 const nats = natsServer.connect({
   url: NATS_URL,
@@ -20,10 +20,10 @@ const hemera = new Hemera(nats, {
 });
 
 hemera.ready(async () => {
-  const client = new MongoClient(config[NODE_ENV].db.url,{ useNewUrlParser: true })
+  const client = new MongoClient(MONGO_URL,{ useNewUrlParser: true })
   await client.connect()
 
-  const db = client.db(config[NODE_ENV].db.name);
+  const db = client.db(DB_NAME);
 
   await resolvers({
     hemera,
